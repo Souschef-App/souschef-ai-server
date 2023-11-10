@@ -7,8 +7,8 @@ import grpc
 import instructor
 from openai import OpenAI
 from app.generate_recipe_service import GenerateRecipe
-from . import recipe_generation_pb2
-from . import recipe_generation_pb2_grpc
+from .generated import recipe_generation_pb2
+from .generated  import recipe_generation_pb2_grpc
 
 class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
     def __init__(self):
@@ -17,7 +17,7 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
 
     def getRecipeBreakDown(self, request, context):
         # self.generate_recipe_service.generate_recipe("chicken")
-        return recipe_generation_pb2.RecipeBreakdownReply(message="Hello BreakDown, %s!" % request.name)
+        return recipe_generation_pb2.RecipeBreakdownReply(message="Hello BreakDown, %s!" % request.description)
 
 class Server:
     def __init__(self):
