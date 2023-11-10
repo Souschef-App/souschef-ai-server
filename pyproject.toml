@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 instructor = "^0.3.1"
+grpcio = "^1.59.2"
+grpcio-tools = "^1.59.2"
 
 
 [build-system]
