@@ -1,19 +1,16 @@
-import os
 import logging
 
-logging.basicConfig(level=logging.INFO)
+from app.server import Server
 
-import instructor
-from openai import OpenAI
-from app.generate_recipe_service import GenerateRecipe
+logging.basicConfig(level=logging.INFO)
 
 def main():
     logger = logging.getLogger()
     logger.info("Running AI...")
 
-    client = instructor.patch(OpenAI(api_key= os.environ['OPENAI_API_KEY']))
-    generate_recipe_service = GenerateRecipe(client)
-    generate_recipe_service.generate_recipe("chicken")
+    server = Server()
+    server.listen()
+
 
 if __name__ == "__main__":
     main()
