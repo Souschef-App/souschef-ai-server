@@ -9,6 +9,10 @@ RUN poetry config virtualenvs.create false
 
 RUN poetry install
 
+WORKDIR /workspace
+
+COPY app/ app/
+
 COPY main.py main.py
 
 CMD ["python",  "main.py"]
