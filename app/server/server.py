@@ -16,8 +16,11 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         self.generate_recipe_service = GenerateRecipe(client)
 
     def getRecipeBreakDown(self, request, context):
-        # self.generate_recipe_service.generate_recipe("chicken")
-        return recipe_generation_pb2.RecipeBreakdownReply(message="Hello BreakDown, %s!" % request.description)
+        recipe = self.generate_recipe_service.generate_recipe(request.description)
+
+        print(recipe)
+
+        return recipe_generation_pb2.RecipeBreakdownReply(message="Hello BreakDown, %s!" % recipe)
 
 class Server:
     def __init__(self):

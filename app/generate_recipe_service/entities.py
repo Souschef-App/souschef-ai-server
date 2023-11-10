@@ -8,8 +8,10 @@ class Unit(Enum):
     Pounds      = auto()
     Grams       = auto()
     Kilograms   = auto()  #End of weight units
-    Teaspoons   = auto()  #Start of volume units
-    Tablespoons = auto()
+    teaspoon    = auto()  #Start of volume units
+    teaspoons   = auto()
+    tablespoon  = auto()
+    tablespoons = auto()
     Cups        = auto()
     Pints       = auto()
     Quarts      = auto()
@@ -19,7 +21,8 @@ class Unit(Enum):
 class Ingredient(BaseModel):
     name : str
     quantity : float
-    unit : Unit = Field(description="Correctly assign one of the predefined units to the ingredient.")
+    unit: str
+    # unit : Unit = Field(description="Correctly assign one of the predefined units to the ingredient.")
 
 class Kitchenware(BaseModel):
     name : str
