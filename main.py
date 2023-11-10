@@ -1,4 +1,4 @@
-
+import os
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -6,7 +6,7 @@ import instructor
 from openai import OpenAI
 from entities import Recipe
 
-client = instructor.patch(OpenAI())
+client = instructor.patch(OpenAI(api_key= os.environ['OPENAI_API_KEY']))
 
 def generate_recipe(input) -> Recipe:
     return client.chat.completions.create(
@@ -28,3 +28,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
