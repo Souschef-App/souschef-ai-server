@@ -2,6 +2,9 @@
 
 from .entities import Recipe
 
+# ingredent = Ingredient(name="chicken", quantity=2, unit="teaspoon")
+# task = Task(title="Hi", description="yo yo yoi", difficulty=1, ingredients=[ingredent])
+# Dummy : Recipe = Recipe(tasks=[task])
 
 class GenerateRecipe:
     def __init__(self, client):
