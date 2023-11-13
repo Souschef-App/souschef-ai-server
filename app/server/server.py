@@ -2,6 +2,7 @@ import os
 import logging
 from concurrent import futures
 
+
 import grpc
 
 import instructor
@@ -18,9 +19,37 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
     def getRecipeBreakDown(self, request, context):
         recipe = self.generate_recipe_service.generate_recipe(request.description)
 
-        print(recipe)
+        reply = recipe_generation_pb2.RecipeBreakdownReply()
 
-        return recipe_generation_pb2.RecipeBreakdownReply(message="Hello BreakDown, %s!" % recipe)
+        for task in recipe.tasks:
+            logging.getLogger().info("Task", task)
+            protoTask = recipe_generation_pb2.Task()
+            protoTask.title       = task.title
+            protoTask.description = task.description
+            protoTask.difficulty  = task.difficulty
+            
+            for ingredient in task.ingredients:
+                protoIngredient = recipe_generation_pb2.Ingredient()
+                protoIngredient.name     = ingredient.name
+                protoIngredient.quantity = ingredient.quantity
+                protoIngredient.unit     = ingredient.unit
+
+                protoTask.ingredients.extend([protoIngredient])
+
+            for kitchenware in task.kitchenware:
+                protoKitchenware = recipe_generation_pb2.Kitchenware()
+                protoKitchenware.name     = kitchenware.name
+                protoKitchenware.quantity = ingredient.quantity
+
+                protoTask.kitchenware.extend([protoKitchenware])
+
+            for dependency in task.dependencies:
+                protoTask.dependencies.extend([dependency])
+
+            reply.tasks.extend([protoTask])
+
+
+        return reply
 
 class Server:
     def __init__(self):

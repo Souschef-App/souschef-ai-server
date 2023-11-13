@@ -13,17 +13,24 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17recipe_generation.proto\"-\n\x16RecipeBreakdownRequest\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t\"\'\n\x14RecipeBreakdownReply\x12\x0f\n\x07message\x18\x01 \x01(\t2Z\n\x10RecipeGeneration\x12\x46\n\x12getRecipeBreakDown\x12\x17.RecipeBreakdownRequest\x1a\x15.RecipeBreakdownReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17recipe_generation.proto\"-\n\x16RecipeBreakdownRequest\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t\":\n\nIngredient\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\x02\x12\x0c\n\x04unit\x18\x03 \x01(\t\"-\n\x0bKitchenware\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\x05\"\x99\x01\n\x04Task\x12\r\n\x05title\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x12\n\ndifficulty\x18\x03 \x01(\x05\x12 \n\x0bingredients\x18\x04 \x03(\x0b\x32\x0b.Ingredient\x12!\n\x0bkitchenware\x18\x05 \x03(\x0b\x32\x0c.Kitchenware\x12\x14\n\x0c\x64\x65pendencies\x18\x06 \x03(\t\",\n\x14RecipeBreakdownReply\x12\x14\n\x05tasks\x18\x01 \x03(\x0b\x32\x05.Task2Z\n\x10RecipeGeneration\x12\x46\n\x12getRecipeBreakDown\x12\x17.RecipeBreakdownRequest\x1a\x15.RecipeBreakdownReply\"\x00\x42-\xaa\x02*souschef.server.Services.SubtaskGenerationb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'recipe_generation_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
+  DESCRIPTOR._serialized_options = b'\252\002*souschef.server.Services.SubtaskGeneration'
   _globals['_RECIPEBREAKDOWNREQUEST']._serialized_start=27
   _globals['_RECIPEBREAKDOWNREQUEST']._serialized_end=72
-  _globals['_RECIPEBREAKDOWNREPLY']._serialized_start=74
-  _globals['_RECIPEBREAKDOWNREPLY']._serialized_end=113
-  _globals['_RECIPEGENERATION']._serialized_start=115
-  _globals['_RECIPEGENERATION']._serialized_end=205
+  _globals['_INGREDIENT']._serialized_start=74
+  _globals['_INGREDIENT']._serialized_end=132
+  _globals['_KITCHENWARE']._serialized_start=134
+  _globals['_KITCHENWARE']._serialized_end=179
+  _globals['_TASK']._serialized_start=182
+  _globals['_TASK']._serialized_end=335
+  _globals['_RECIPEBREAKDOWNREPLY']._serialized_start=337
+  _globals['_RECIPEBREAKDOWNREPLY']._serialized_end=381
+  _globals['_RECIPEGENERATION']._serialized_start=383
+  _globals['_RECIPEGENERATION']._serialized_end=473
 # @@protoc_insertion_point(module_scope)

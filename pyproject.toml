@@ -10,6 +10,7 @@ python = "^3.10"
 instructor = "^0.3.1"
 grpcio = "^1.59.2"
 grpcio-tools = "^1.59.2"
+protobuf = "^4.25.0"
 
 
 [build-system]
