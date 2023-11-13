@@ -30,20 +30,22 @@ class Kitchenware(_message.Message):
     def __init__(self, name: _Optional[str] = ..., quantity: _Optional[int] = ...) -> None: ...
 
 class Task(_message.Message):
-    __slots__ = ["title", "description", "difficulty", "ingredients", "kitchenware", "dependencies"]
+    __slots__ = ["uuid", "title", "description", "difficulty", "ingredients", "kitchenware", "dependencies"]
+    UUID_FIELD_NUMBER: _ClassVar[int]
     TITLE_FIELD_NUMBER: _ClassVar[int]
     DESCRIPTION_FIELD_NUMBER: _ClassVar[int]
     DIFFICULTY_FIELD_NUMBER: _ClassVar[int]
     INGREDIENTS_FIELD_NUMBER: _ClassVar[int]
     KITCHENWARE_FIELD_NUMBER: _ClassVar[int]
     DEPENDENCIES_FIELD_NUMBER: _ClassVar[int]
+    uuid: bytes
     title: str
     description: str
     difficulty: int
     ingredients: _containers.RepeatedCompositeFieldContainer[Ingredient]
     kitchenware: _containers.RepeatedCompositeFieldContainer[Kitchenware]
-    dependencies: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, title: _Optional[str] = ..., description: _Optional[str] = ..., difficulty: _Optional[int] = ..., ingredients: _Optional[_Iterable[_Union[Ingredient, _Mapping]]] = ..., kitchenware: _Optional[_Iterable[_Union[Kitchenware, _Mapping]]] = ..., dependencies: _Optional[_Iterable[str]] = ...) -> None: ...
+    dependencies: _containers.RepeatedScalarFieldContainer[bytes]
+    def __init__(self, uuid: _Optional[bytes] = ..., title: _Optional[str] = ..., description: _Optional[str] = ..., difficulty: _Optional[int] = ..., ingredients: _Optional[_Iterable[_Union[Ingredient, _Mapping]]] = ..., kitchenware: _Optional[_Iterable[_Union[Kitchenware, _Mapping]]] = ..., dependencies: _Optional[_Iterable[bytes]] = ...) -> None: ...
 
 class RecipeBreakdownReply(_message.Message):
     __slots__ = ["tasks"]

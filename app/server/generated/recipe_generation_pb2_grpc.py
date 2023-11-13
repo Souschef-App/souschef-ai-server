@@ -18,7 +18,7 @@ class RecipeGenerationStub(object):
                 '/RecipeGeneration/getRecipeBreakDown',
                 request_serializer=recipe__generation__pb2.RecipeBreakdownRequest.SerializeToString,
                 response_deserializer=recipe__generation__pb2.RecipeBreakdownReply.FromString,
-        )
+                )
 
 
 class RecipeGenerationServicer(object):
