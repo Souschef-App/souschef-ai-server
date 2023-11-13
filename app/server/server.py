@@ -22,7 +22,6 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         reply = recipe_generation_pb2.RecipeBreakdownReply()
 
         for task in recipe.tasks:
-            logging.getLogger().info("Task", task)
             protoTask = recipe_generation_pb2.Task()
             protoTask.title       = task.title
             protoTask.description = task.description
