@@ -1,6 +1,5 @@
 
-
-
+import os
 import logging
 
 from openai import OpenAI
@@ -17,18 +16,21 @@ class GenerateRecipe:
         self.logger = logging.getLogger(__name__)
 
     def generate_recipe(self, input) -> Recipe:
-        # return Dummy
-        return self.client.chat.completions.create(
-            model="gpt-4-0613",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "your role is to process a user prompt recipe into a list of atomic tasks: ",
-                },
-                {
-                    "role": "user",
-                    "content": f"can you break down the following tasks into the list of sub tasks more broken down further than the original: \n {input}",
-                }
-            ],
-            response_model=Recipe,
-        )   
+        if os.environ["DUMMY_MODE"] == "TRUE":
+            return Dummy
+        else:
+            return self.client.chat.completions.create(
+                model="gpt-4-0613",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "your role is to process a user prompt recipe into a list of atomic tasks: ",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"can you break down the following tasks into the list of sub tasks more broken down further than the original: \n {input}",
+                    }
+                ],
+                response_model=Recipe,
+            )   
+        
