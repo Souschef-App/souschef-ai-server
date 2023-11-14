@@ -41,7 +41,7 @@ class Task(BaseModel):
     ingredients: List[Ingredient] = Field(..., default_factory=list)
     kitchenware: List[Kitchenware] = Field(..., default_factory=list)
     difficulty: int = Field(...,description="Difficutly of this task 0 being the easiest, up to 2 being the hardest")
-    dependencies: List[str] = Field(..., default_factory=list, description="List of task ids that this task depends or relies on to resolve it",)
+    dependencies: List[int] = Field(..., default_factory=list, description="List of task ids that this task depends or relies on to resolve it",)
 
 class Recipe(BaseModel):
     tasks: List[Task] = Field(..., default_factory=list, description="List of all tasks needed to complete this")

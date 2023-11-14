@@ -23,14 +23,15 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
 
         reply = recipe_generation_pb2.RecipeBreakdownReply()
 
+        idProtoTask_dict = dict()
+
         for task in recipe.tasks:
             protoTask = recipe_generation_pb2.Task()
-            newUUID = uuid.uuid4()
-            self.logger.info(f"newUUID {newUUID}")
-            protoTask.uuid = newUUID.bytes_le
+            protoTask.uuid = uuid.uuid4().bytes_le
             protoTask.title       = task.title
             protoTask.description = task.description
             protoTask.difficulty  = task.difficulty
+
 
             for ingredient in task.ingredients:
                 protoIngredient = recipe_generation_pb2.Ingredient()
@@ -50,10 +51,11 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             # for dependency in task.dependencies:
             #     protoTask.dependencies.extend([dependency])
 
-            reply.tasks.extend([protoTask])
+            # reply.tasks.extend([protoTask])
+            idProtoTask_dict[task.id] = protoTask
         
         # reply = self.assignUUID(reply)
-        reply = self.convertDepTitleToUUID(recipe, reply)
+        reply = self.convertDepIDToUUID(recipe, idProtoTask_dict, reply)
 
         return reply
     
@@ -62,15 +64,13 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
     #         task.uuid = uuid.uuid4().bytes_le
     #     return reply
     
-    def convertDepTitleToUUID(self, recipe : Recipe, reply : recipe_generation_pb2.RecipeBreakdownReply):
+    def convertDepIDToUUID(self, recipe : Recipe, idProtoTask_dict : dict, reply : recipe_generation_pb2.RecipeBreakdownReply):
         for task in recipe.tasks:
+            protoTask = idProtoTask_dict[task.id]
             for dep in task.dependencies:
-                replyTaskToUpdate = next((t for t in reply.tasks if t.title == task.title), None)
-                if(replyTaskToUpdate != None):
-                    for replyTask in reply.tasks:
-                        if(dep == replyTask.title):
-                            self.logger.info(f"ADDING UUID FOR DEP")
-                            replyTaskToUpdate.dependencies.extend([replyTask.uuid])
+                protoTask.dependencies.extend([idProtoTask_dict[dep].uuid])
+
+            reply.tasks.extend([protoTask])
 
         return reply
 
