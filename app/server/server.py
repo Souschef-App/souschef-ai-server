@@ -32,7 +32,6 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             protoTask.description = task.description
             protoTask.difficulty  = task.difficulty
 
-            
             for ingredient in task.ingredients:
                 protoIngredient = recipe_generation_pb2.Ingredient()
                 protoIngredient.name     = ingredient.name
@@ -44,7 +43,7 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             for kitchenware in task.kitchenware:
                 protoKitchenware = recipe_generation_pb2.Kitchenware()
                 protoKitchenware.name     = kitchenware.name
-                protoKitchenware.quantity = ingredient.quantity
+                protoKitchenware.quantity = kitchenware.quantity
 
                 protoTask.kitchenware.extend([protoKitchenware])
 
@@ -72,7 +71,6 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
                         if(dep == replyTask.title):
                             self.logger.info(f"ADDING UUID FOR DEP")
                             replyTaskToUpdate.dependencies.extend([replyTask.uuid])
-
 
         return reply
 

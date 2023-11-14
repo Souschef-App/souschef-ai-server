@@ -307,13 +307,13 @@ files = [
 
 [[package]]
 name = "instructor"
-version = "0.3.1"
+version = "0.3.3"
 description = "Helper functions that allow us to improve openai's function_call ergonomics"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "instructor-0.3.1-py3-none-any.whl", hash = "sha256:401ebe37b287ae9c4e6e8c041d0ea18394d832cd27a6c4572d8e8d025334d3b8"},
-    {file = "instructor-0.3.1.tar.gz", hash = "sha256:950b73b469e35e017de845c027a7bf9f4e502e7c23e5f99ec3bf3e14e2d2cd35"},
+    {file = "instructor-0.3.3-py3-none-any.whl", hash = "sha256:ab0f7bebd085c0ef86598c3922b088adcc01963ab1939e329293bc455086716d"},
+    {file = "instructor-0.3.3.tar.gz", hash = "sha256:8cc8b34b5e0e86cad21866849d8e1878f6e2b41947ff8c0815b84d3602ef5d2b"},
 ]
 
 [package.dependencies]
