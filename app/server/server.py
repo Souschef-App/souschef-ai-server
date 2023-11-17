@@ -59,6 +59,11 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
 
         return reply
     
+    
+    
+    def retryTask(self, request, context):
+        self.logger.info("retryTask")
+    
     # def assignUUID(self, reply : recipe_generation_pb2.RecipeBreakdownReply):
     #     for task in reply.tasks:
     #         task.uuid = uuid.uuid4().bytes_le
