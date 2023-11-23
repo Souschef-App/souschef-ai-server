@@ -34,3 +34,22 @@ class GenerateRecipe:
                 response_model=Recipe,
             )   
         
+    def retry_task(self, input) -> Recipe:
+        if os.environ["DUMMY_MODE"] == "TRUE":
+            return task
+        else:
+            return self.client.chat.completions.create(
+                model="gpt-4-0613",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "your role is to improve this tasks clarity: ",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"can you re phrase this task in a slightly different way: \n {input}",
+                    }
+                ],
+                response_model=Recipe,
+            )   
+        

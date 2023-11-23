@@ -32,7 +32,6 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             protoTask.description = task.description
             protoTask.difficulty  = task.difficulty
 
-
             for ingredient in task.ingredients:
                 protoIngredient = recipe_generation_pb2.Ingredient()
                 protoIngredient.name     = ingredient.name
@@ -60,15 +59,44 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         return reply
     
     
-    
     def retryTask(self, request, context):
-        self.logger.info("retryTask")
-    
-    # def assignUUID(self, reply : recipe_generation_pb2.RecipeBreakdownReply):
-    #     for task in reply.tasks:
-    #         task.uuid = uuid.uuid4().bytes_le
-    #     return reply
-    
+        self.logger.info(f"retryTask {request.task}")  
+
+        taskString = f"Task Title: {request.task.title} Duration: {request.task.description} Ingredients "
+
+        for ingredient in request.task.ingredients:
+            ingredientsSubString = f"Name: {ingredient.name} Quantity: {ingredient.quantity} Unit: {ingredient.unit}"
+            taskString + ingredientsSubString
+   
+        self.logger.info(f"taskString {taskString}")      
+
+        task = self.generate_recipe_service.retry_task(taskString)
+
+        reply = recipe_generation_pb2.RetryTaskRequestReply()
+
+        reply.task.uuid = uuid.uuid4().bytes_le
+        reply.task.title       = task.title
+        reply.task.description = task.description
+        reply.task.difficulty  = task.difficulty
+
+        for ingredient in task.ingredients:
+            protoIngredient = recipe_generation_pb2.Ingredient()
+            protoIngredient.name     = ingredient.name
+            protoIngredient.quantity = ingredient.quantity
+            protoIngredient.unit     = ingredient.unit
+
+            reply.task.ingredients.extend([protoIngredient])
+
+        for kitchenware in task.kitchenware:
+            protoKitchenware = recipe_generation_pb2.Kitchenware()
+            protoKitchenware.name     = kitchenware.name
+            protoKitchenware.quantity = kitchenware.quantity
+            
+            reply.task.protoKitchenware.extend([protoKitchenware])
+
+
+        return reply
+
     def convertDepIDToUUID(self, recipe : Recipe, idProtoTask_dict : dict, reply : recipe_generation_pb2.RecipeBreakdownReply):
         for task in recipe.tasks:
             protoTask = idProtoTask_dict[task.id]
