@@ -6,9 +6,10 @@ from openai import OpenAI
 from .entities import Ingredient, Recipe, Task
 
 ingredent = Ingredient(name="chicken", quantity=2, unit="teaspoon")
-task = Task(id=1, title="Hi", description="yo yo yoi", difficulty=1, ingredients=[ingredent], kitchenware=[], dependencies=[])
-task2 = Task(id=2, title="BYE", description="yo yo yoi", difficulty=3, ingredients=[ingredent], kitchenware=[], dependencies=[1])
-Dummy : Recipe = Recipe(tasks=[task, task2])
+task = Task(id=1, title="H HFIE GJIEGJ GJGGGgi", description="yo yo yoi efef ef ef ef fe eaaaaa efe ", difficulty=1, ingredients=[ingredent], kitchenware=[], dependencies=[])
+task2 = Task(id=2, title="H HFIE GJIEGJ GJGGGgi a ef ef", description="yo yo yoi afea sefefefefef efefe ef ef efefe fef " , difficulty=3, ingredients=[ingredent], kitchenware=[], dependencies=[1])
+task3 = Task(id=2, title="BYE ef ef ef ef eddddd", description="yo yo yoi asdfes aefesa fef aef WEf", difficulty=3, ingredients=[ingredent], kitchenware=[], dependencies=[1,2])
+Dummy : Recipe = Recipe(tasks=[task, task2, task3])
 
 class GenerateRecipe:
     def __init__(self, client):

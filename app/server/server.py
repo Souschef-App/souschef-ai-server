@@ -101,7 +101,10 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         for task in recipe.tasks:
             protoTask = idProtoTask_dict[task.id]
             for dep in task.dependencies:
-                protoTask.dependencies.extend([idProtoTask_dict[dep].uuid])
+                protoDep = recipe_generation_pb2.Dependency()
+                protoDep.UUID = idProtoTask_dict[dep].uuid
+                protoTask.name = idProtoTask_dict[dep].name
+                protoTask.dependencies.extend([protoTask])
 
             reply.tasks.extend([protoTask])
 

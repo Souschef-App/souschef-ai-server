@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from . import recipe_generation_pb2 as recipe__generation__pb2
+import recipe_generation_pb2 as recipe__generation__pb2
 
 
 class RecipeGenerationStub(object):
