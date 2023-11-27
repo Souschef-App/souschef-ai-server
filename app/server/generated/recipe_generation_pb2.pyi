@@ -24,10 +24,10 @@ class Fraction(_message.Message):
     WHOLE_FIELD_NUMBER: _ClassVar[int]
     NUMERATOR_FIELD_NUMBER: _ClassVar[int]
     DENOMINATOR_FIELD_NUMBER: _ClassVar[int]
-    whole: float
-    numerator: float
-    denominator: float
-    def __init__(self, whole: _Optional[float] = ..., numerator: _Optional[float] = ..., denominator: _Optional[float] = ...) -> None: ...
+    whole: int
+    numerator: int
+    denominator: int
+    def __init__(self, whole: _Optional[int] = ..., numerator: _Optional[int] = ..., denominator: _Optional[int] = ...) -> None: ...
 
 class Ingredient(_message.Message):
     __slots__ = ["name", "quantity", "unit"]
