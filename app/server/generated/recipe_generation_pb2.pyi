@@ -19,15 +19,25 @@ class RetryTaskRequest(_message.Message):
     prompt: str
     def __init__(self, task: _Optional[_Union[Task, _Mapping]] = ..., prompt: _Optional[str] = ...) -> None: ...
 
+class Fraction(_message.Message):
+    __slots__ = ["whole", "numerator", "denominator"]
+    WHOLE_FIELD_NUMBER: _ClassVar[int]
+    NUMERATOR_FIELD_NUMBER: _ClassVar[int]
+    DENOMINATOR_FIELD_NUMBER: _ClassVar[int]
+    whole: float
+    numerator: float
+    denominator: float
+    def __init__(self, whole: _Optional[float] = ..., numerator: _Optional[float] = ..., denominator: _Optional[float] = ...) -> None: ...
+
 class Ingredient(_message.Message):
     __slots__ = ["name", "quantity", "unit"]
     NAME_FIELD_NUMBER: _ClassVar[int]
     QUANTITY_FIELD_NUMBER: _ClassVar[int]
     UNIT_FIELD_NUMBER: _ClassVar[int]
     name: str
-    quantity: float
+    quantity: Fraction
     unit: str
-    def __init__(self, name: _Optional[str] = ..., quantity: _Optional[float] = ..., unit: _Optional[str] = ...) -> None: ...
+    def __init__(self, name: _Optional[str] = ..., quantity: _Optional[_Union[Fraction, _Mapping]] = ..., unit: _Optional[str] = ...) -> None: ...
 
 class Kitchenware(_message.Message):
     __slots__ = ["name", "quantity"]

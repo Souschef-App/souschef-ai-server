@@ -35,7 +35,13 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             for ingredient in task.ingredients:
                 protoIngredient = recipe_generation_pb2.Ingredient()
                 protoIngredient.name     = ingredient.name
-                protoIngredient.quantity = ingredient.quantity
+
+                protoFraction = recipe_generation_pb2.Fraction()
+                protoFraction.whole = ingredient.quantity.whole
+                protoFraction.numerator = ingredient.quantity.numerator
+                protoFraction.denominator = ingredient.quantity.denominator
+
+                protoIngredient.quantity = protoFraction
                 protoIngredient.unit     = ingredient.unit
 
                 protoTask.ingredients.extend([protoIngredient])
@@ -89,11 +95,9 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
 
         for kitchenware in task.kitchenware:
             protoKitchenware = recipe_generation_pb2.Kitchenware()
-            protoKitchenware.name     = kitchenware.name
+            protoKitchenware.name = kitchenware.name
             protoKitchenware.quantity = kitchenware.quantity
-            
             reply.task.protoKitchenware.extend([protoKitchenware])
-
 
         return reply
 

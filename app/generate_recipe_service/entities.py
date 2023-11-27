@@ -18,9 +18,14 @@ from typing   import List, Literal
 #     Gallons     = auto()
 #     Liters      = auto()  #End of volume units
 
+class Fraction(BaseModel):
+    whole: int = Field(..., description="whole component of the number")
+    numerator: float = Field(..., description="numerator of fraction")
+    denominator: float = Field(..., description="denominator of fraction")
+
 class Ingredient(BaseModel):
     name : str = Field(...,description="Name of ingredient", examples=["beets", "carrot", "steak", "flour", "water"])
-    quantity : float = Field(...,description="Amount of this ingredient needed")
+    quantity : Fraction = Field(...,description="Amount of this ingredient needed, whole part is stored; numerator is top of the fraction, denominator is what the amount is out of")
     # unit : Unit = Field(description="Correctly assign one of the predefined units to the ingredient. If no match use NONE")
     unit : Literal["none", "ounces", "pounds", "grams", "kilograms", "teaspoon", "tablespoon", "cups","pints", "quarts", "gallons", "liters", "milliliters"] = Field(
         ...,
