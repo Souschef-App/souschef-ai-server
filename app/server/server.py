@@ -12,6 +12,14 @@ from app.generate_recipe_service import GenerateRecipe
 from .generated import recipe_generation_pb2
 from .generated  import recipe_generation_pb2_grpc
 
+from dataclasses import dataclass
+
+@dataclass
+class Fraction:
+    whole: int
+    numerator: int
+    denominator: int
+
 class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
     def __init__(self):
         client = instructor.patch(OpenAI(api_key= os.environ['OPENAI_API_KEY']))
@@ -20,6 +28,8 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
 
     def getRecipeBreakDown(self, request, context):
         recipe = self.generate_recipe_service.generate_recipe(request.description)
+
+        self.logger.info(f"recipe {recipe}")
 
         reply = recipe_generation_pb2.RecipeBreakdownReply()
 
@@ -31,17 +41,18 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             protoTask.title       = task.title
             protoTask.description = task.description
             protoTask.difficulty  = task.difficulty
+            protoTask.duration    = task.duration
 
             for ingredient in task.ingredients:
                 protoIngredient = recipe_generation_pb2.Ingredient()
                 protoIngredient.name     = ingredient.name
 
-                protoFraction = recipe_generation_pb2.Fraction()
-                protoFraction.whole = ingredient.quantity.whole
-                protoFraction.numerator = ingredient.quantity.numerator
-                protoFraction.denominator = ingredient.quantity.denominator
+                frac = self.parse_mixed_number(ingredient.quantity)
 
-                protoIngredient.quantity = protoFraction
+                protoIngredient.quantity.whole = frac.whole
+                protoIngredient.quantity.numerator = frac.numerator
+                protoIngredient.quantity.denominator = frac.denominator
+
                 protoIngredient.unit     = ingredient.unit
 
                 protoTask.ingredients.extend([protoIngredient])
@@ -84,11 +95,12 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         reply.task.title       = task.title
         reply.task.description = task.description
         reply.task.difficulty  = task.difficulty
+        reply.task.duration  = task.duration
 
         for ingredient in task.ingredients:
             protoIngredient = recipe_generation_pb2.Ingredient()
             protoIngredient.name     = ingredient.name
-            protoIngredient.quantity = ingredient.quantity
+            protoIngredient.quantity =  ingredient.quantity
             protoIngredient.unit     = ingredient.unit
 
             reply.task.ingredients.extend([protoIngredient])
@@ -113,6 +125,28 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             reply.tasks.extend([protoTask])
 
         return reply
+    
+    def parse_mixed_number(self, mixed_number : str):
+        
+        if mixed_number.find(' ') != -1:
+            whole, fraction = map(str.strip, mixed_number.split())
+            whole = int(whole) if whole else 0
+            
+            numerator = 0
+            denominator = 0
+
+            if fraction.find('/') != -1:
+                numerator, denominator = map(int, fraction.split('/'))
+        
+                return Fraction(whole=whole, numerator=numerator, denominator=denominator)
+        else:
+            if mixed_number.find('/') != -1:
+                numerator, denominator = map(int, mixed_number.split('/'))
+        
+                return Fraction(whole=0, numerator=numerator, denominator=denominator)
+            else:
+                whole = int(mixed_number)
+                return Fraction(whole=whole, numerator=0, denominator=0)
 
 class Server:
     def __init__(self):
