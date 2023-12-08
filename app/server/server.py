@@ -169,11 +169,21 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
                 return Fraction(whole=whole, numerator=numerator, denominator=denominator)
         else:
             if mixed_number.find('/') != -1:
-                numerator, denominator = map(int, mixed_number.split('/'))
+                numerator = 0
+                denominator = 0
+                try:
+                    numerator, denominator = map(int, mixed_number.split('/'))
+                except Exception as ex:
+                    self.logger.info(ex)
         
                 return Fraction(whole=0, numerator=numerator, denominator=denominator)
             else:
-                whole = int(mixed_number)
+                whole = 0 
+                try:
+                    whole = int(mixed_number)
+                except Exception as ex:
+                    self.logger.info(ex)
+
                 return Fraction(whole=whole, numerator=0, denominator=0)
 
 class Server:
