@@ -33,7 +33,7 @@ class Ingredient(BaseModel):
         description="Correctly assign one of the predefined units to the ingredient. Important note: If no match use none"
     )
 
-MaybeIngredient = Maybe(Ingredient)
+# MaybeIngredient = Maybe(Ingredient)
 
 class Kitchenware(BaseModel):
     name : str = Field(...,description="Name of kitchenware", examples=["knife", "blender", "stove", "measuring cup"])
@@ -46,7 +46,7 @@ class Task(BaseModel):
     )
     title: str = Field(...,description="Name of task")
     description: str = Field(...,description="Instructions needed to complete this task")
-    ingredients: List[MaybeIngredient] = Field(..., default_factory=list)
+    ingredients: List[Ingredient] = Field(..., default_factory=list)
     kitchenware: List[Kitchenware] = Field(..., default_factory=list)
     difficulty: int = Field(...,description="Difficutly of this task 0 being the easiest, up to 2 being the hardest")
     duration: int = Field(...,description="Estimate the time for this task in mins")

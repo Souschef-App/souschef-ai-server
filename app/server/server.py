@@ -48,25 +48,25 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             for ingredient in task.ingredients:
 
                 protoIngredient = recipe_generation_pb2.Ingredient()
-                if not ingredient.error:
-                    protoIngredient.name     = ingredient.name
 
-                    frac = self.parse_mixed_number(ingredient.quantity)
+                protoIngredient.name     = ingredient.name
 
-                    protoIngredient.quantity.whole = frac.whole
-                    protoIngredient.quantity.numerator = frac.numerator
-                    protoIngredient.quantity.denominator = frac.denominator
+                frac = self.parse_mixed_number(ingredient.quantity)
 
-                    protoIngredient.unit     = ingredient.unit
+                protoIngredient.quantity.whole = frac.whole
+                protoIngredient.quantity.numerator = frac.numerator
+                protoIngredient.quantity.denominator = frac.denominator
 
-                else:
-                    self.logger.info(f"ingredient error {ingredient.message}")
-                    protoIngredient.name     = ""
-                    protoIngredient.quantity.whole = 0
-                    protoIngredient.quantity.numerator = 0
-                    protoIngredient.quantity.denominator = 0
+                protoIngredient.unit     = ingredient.unit
 
-                    protoIngredient.unit     = "none"
+                # else:
+                #     self.logger.info(f"ingredient error {ingredient.message}")
+                #     protoIngredient.name     = ""
+                #     protoIngredient.quantity.whole = 0
+                #     protoIngredient.quantity.numerator = 0
+                #     protoIngredient.quantity.denominator = 0
+
+                #     protoIngredient.unit     = "none"
 
                 protoTask.ingredients.extend([protoIngredient])
 
