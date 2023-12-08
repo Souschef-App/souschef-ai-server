@@ -100,7 +100,13 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         for ingredient in task.ingredients:
             protoIngredient = recipe_generation_pb2.Ingredient()
             protoIngredient.name     = ingredient.name
-            protoIngredient.quantity =  ingredient.quantity
+
+            frac = self.parse_mixed_number(ingredient.quantity)
+
+            protoIngredient.quantity.whole = frac.whole
+            protoIngredient.quantity.numerator = frac.numerator
+            protoIngredient.quantity.denominator = frac.denominator
+
             protoIngredient.unit     = ingredient.unit
 
             reply.task.ingredients.extend([protoIngredient])
