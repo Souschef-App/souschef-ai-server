@@ -154,11 +154,11 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             fraction = 0
             try:
                 whole, fraction = map(str.strip, mixed_number.split())
+                whole = int(whole) if whole else 0
 
             except Exception as ex:
                 self.logger.info(ex)
 
-            whole = int(whole) if whole else 0
             
             numerator = 0
             denominator = 0
