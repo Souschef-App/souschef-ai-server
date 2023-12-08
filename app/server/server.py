@@ -27,6 +27,8 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         self.logger = logging.getLogger(__name__)
 
     def getRecipeBreakDown(self, request, context):
+
+        self.logger.info(f"consulting the chat gippity")
         recipe = self.generate_recipe_service.generate_recipe(request.description)
 
         self.logger.info(f"recipe {recipe}")
@@ -40,7 +42,7 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
             protoTask.uuid = uuid.uuid4().bytes_le
             protoTask.title       = task.title
             protoTask.description = task.description
-            protoTask.difficulty  = task.difficulty
+            protoTask.difficulty  = max(0, min(task.difficulty, 2))
             protoTask.duration    = task.duration
 
             for ingredient in task.ingredients:
@@ -73,6 +75,8 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         # reply = self.assignUUID(reply)
         reply = self.convertDepIDToUUID(recipe, idProtoTask_dict, reply)
 
+        self.logger.info(f"reply {reply}")  
+
         return reply
     
     
@@ -94,7 +98,7 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
         reply.task.uuid = uuid.uuid4().bytes_le
         reply.task.title       = task.title
         reply.task.description = task.description
-        reply.task.difficulty  = task.difficulty
+        reply.task.difficulty  = max(0, min(task.difficulty, 2))
         reply.task.duration  = task.duration
 
         for ingredient in task.ingredients:
@@ -135,7 +139,14 @@ class RecipeGeneration(recipe_generation_pb2_grpc.RecipeGenerationServicer):
     def parse_mixed_number(self, mixed_number : str):
         
         if mixed_number.find(' ') != -1:
-            whole, fraction = map(str.strip, mixed_number.split())
+            whole = 0, 
+            fraction = 0
+            try:
+                whole, fraction = map(str.strip, mixed_number.split())
+
+            except Exception as ex:
+                self.logger.info(ex)
+
             whole = int(whole) if whole else 0
             
             numerator = 0

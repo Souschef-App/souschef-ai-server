@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from enum     import Enum, auto
 from typing   import List, Literal
+# from instructor import Maybe
 
 # class Unit(Enum):
 #     NONE        = auto()
@@ -29,8 +30,10 @@ class Ingredient(BaseModel):
     # unit : Unit = Field(description="Correctly assign one of the predefined units to the ingredient. If no match use NONE")
     unit : Literal["none", "ounces", "pounds", "grams", "kilograms", "teaspoon", "tablespoon", "cup", "cups","pints", "quarts", "gallons", "liters", "milliliters", "pieces"] = Field(
         ...,
-        description="Correctly assign one of the predefined units to the ingredient. If no match use none"
+        description="Correctly assign one of the predefined units to the ingredient. Important note: If no match use none"
     )
+
+# MaybeIngredient = Maybe(Ingredient)
 
 class Kitchenware(BaseModel):
     name : str = Field(...,description="Name of kitchenware", examples=["knife", "blender", "stove", "measuring cup"])
