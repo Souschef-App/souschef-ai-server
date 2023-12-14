@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, ValidationInfo
 from enum     import Enum, auto
 from typing   import List, Literal
 from instructor import Maybe
@@ -24,14 +24,27 @@ from instructor import Maybe
 #     numerator: int   = Field(..., description="numerator of fraction; if no fraction put 1", examples=[0, 1, 2])
 #     denominator: int  = Field(..., description="denominator of fraction; if no fraction put 1", examples=[0, 1, 2])
 
+Unit = Literal["none", "ounces", "pounds", "grams", "kilograms", "teaspoon", "tablespoon", "cup", "cups","pints", "quarts", "gallons", "liters", "milliliters", "pieces"]
+
 class Ingredient(BaseModel):
     name : str = Field(...,description="Name of ingredient", examples=["beets", "carrot", "steak", "flour", "water"])
     quantity : str = Field(...,description="amount of this ingredient as written string", examples=["1 2/3"])
     # unit : Unit = Field(description="Correctly assign one of the predefined units to the ingredient. If no match use NONE")
-    unit : Literal["none", "ounces", "pounds", "grams", "kilograms", "teaspoon", "tablespoon", "cup", "cups","pints", "quarts", "gallons", "liters", "milliliters", "pieces"] = Field(
+    unit : Unit = Field(
         ...,
         description="Correctly assign one of the predefined units to the ingredient. Important note: If no match use none"
     )
+
+    @field_validator('unit', mode="before")
+    @classmethod
+    def unit_in_Unit(cls, unit: str) -> Unit: 
+        print("val", unit)
+        if unit in Unit:
+            return unit 
+        # context = info.context
+        # if context:
+        #     context = context.get('text_chunk')
+        return "none"
 
 # MaybeIngredient = Maybe(Ingredient)
 
